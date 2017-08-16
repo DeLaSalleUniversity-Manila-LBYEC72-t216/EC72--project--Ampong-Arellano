@@ -14,34 +14,53 @@ typedef struct{
 	float credits;
 }m;
 
+typedef struct{
+	char clayout[4][8];
+	char mt[30], cv[15], ms[10];
+	float mp;
+	int intel[4][8];
+}mov;
+
 main(){
 	int i=0, A=0, row1, col1, f, S, ct, pop=1, Loog=0, temp, z, res[4][8];
-	char mt[4][30], cv[4][15], ms[4][10], v,r,c;
-	float mp[4]={220,200,200,180};
+	char v,r,c;
 	float t=0, b=0, e=0, d=0;
 	m user[100];
+	mov tick[4];
 	string search;
 	
-	char clayout[4][8];
-	strcpy(mt[0],"Dunkirk");
-	strcpy(mt[1],"Spiderman");
-	strcpy(mt[2],"Baby Driver");
-	strcpy(mt[3],"Finally Found");
+	tick[0].mp=220;
+	tick[1].mp=200;
+	tick[2].mp=200;
+	tick[3].mp=180;
 	
-	strcpy(cv[0],"\tCinema 1");
-	strcpy(cv[1],"\tCinema 2");
-	strcpy(cv[2],"\tCinema 3");
-	strcpy(cv[3],"\tCinema 4");
+	strcpy(tick[0].mt,"Dunkirk");
+	strcpy(tick[1].mt,"Spiderman");
+	strcpy(tick[2].mt,"Baby Driver");
+	strcpy(tick[3].mt,"Finally Found");
 	
-	strcpy(ms[0],"11am-2pm");
-	strcpy(ms[1],"\t11am-2pm");
-	strcpy(ms[2],"\t11am-2pm");	
-	strcpy(ms[3],"\t11am-2pm");	
+	strcpy(tick[0].cv,"\tCinema 1");
+	strcpy(tick[1].cv,"\tCinema 2");
+	strcpy(tick[2].cv,"\tCinema 3");
+	strcpy(tick[3].cv,"\tCinema 4");
+	
+	strcpy(tick[0].ms,"11am-2pm");
+	strcpy(tick[1].ms,"\t11am-2pm");
+	strcpy(tick[2].ms,"\t11am-2pm");	
+	strcpy(tick[3].ms,"\t11am-2pm");
+	
+	
+	for(temp=0;temp<4;temp++){
+	for (r=0;r<4;r++){
+			cout<<"\n";
+			for(c=0;c<8;c++){
+				tick[temp].clayout[r][c]='*';
+			}}}
 	
 	user[0]={"Admin","MIJU","Owner","access", "access", 1000};
 	do{
 	system("cls");
-	cout<<"~~~~~~~~~~MIJU ONLINE CINEMA~~~~~~~~~~"<<endl;
+	cout<<"~~~~~~~~~MIJU ONLINE CINEMA~~~~~~~~~"<<endl;
 	cout<<"\n\n\n";
 	
 	cout<<"1. Log In\n";
@@ -49,7 +68,7 @@ main(){
 	cin>>ct;
 	
 	if(ct==1){
-		cout<<"~~~~~~~~~~Log In~~~~~~~~~~"<<endl;
+		cout<<"~~~~~~~~~Log In~~~~~~~~~"<<endl;
 		cout<<"Username:";
 		cin>>search;
 	f=0;
@@ -73,7 +92,7 @@ main(){
 	}else if(ct==2){
 			system("cls");
 			do{
-			cout<<"~~~~~~~~~~SIGN UP~~~~~~~~~~"<<endl;
+			cout<<"~~~~~~~~~SIGN UP~~~~~~~~~"<<endl;
 				if(user[pop].Password2!=user[pop].Password)
 				cout<<"Please Make sure your password is retyped correctly\n";
 			cout<<"New USER's Username: ";
@@ -103,6 +122,7 @@ main(){
 	cout<<"\n\n~~~~~~~~~~Admin Menu~~~~~~~~~~\n";
 	cout<<"0. View Accounts\n";
 	}else{
+	system("cls");
 	cout<<"\n\n~~~~~~~~~~User Menu~~~~~~~~~~\n";
 	}
 	cout<<"1. Reserve Seats\n";
@@ -114,7 +134,7 @@ main(){
 	
 	if(z==0&&i==0){
 	system("cls");
-	cout<<"~~~~~~~~~~Accounts in System~~~~~~~~~~"<<endl<<endl;
+	cout<<"~~~~~~~~~Accounts in System~~~~~~~~~"<<endl<<endl;
 		for(int i=0; i<pop; i++){
 			cout<<"Account Number: "<<i<<endl;
 			cout<<"Username: "<<user[i].Login<<endl;
@@ -123,14 +143,15 @@ main(){
 			cout<<"Password: "<<user[i].Password<<endl<<endl<<endl;
 			cin>>r;
 		}
+		i=0;
 	}else if(z==1){
 	system("cls");
 	cout<<"Movie Title\t\tVenue\t\tSchedule\tPrice\n";
 	for(temp=0;temp<4;temp++){
-		cout<<mt[temp]<<"\t";
-		cout<<cv[temp]<<"\t";
-		cout<<ms[temp]<<"\t";
-		cout<<mp[temp]<<"\t"<<endl;
+		cout<<tick[temp].mt<<"\t";
+		cout<<tick[temp].cv<<"\t";
+		cout<<tick[temp].ms<<"\t";
+		cout<<tick[temp].mp<<"\t"<<endl;
 	}
 
 	cout<<"\n\n\nSelect Cinema \n\n1. Cinema 1\n2. Cinema 2\n3. Cinema 3\n4. Cinema 4\nOthers: Not going to buy\n";
@@ -138,7 +159,7 @@ main(){
 	if(A>=1&&A<=4){
 		cout<<"\n\nHow many tickets?: ";
 		cin>>t;
-		b = t * mp[A-1];
+		b = t * tick[A-1].mp;
 		cout<<"\nTotal Cost of Tickets: "<<b<<"/n";
 		cout<<"\nCinema "<<A;
 		cout<<"\n\n";
@@ -147,8 +168,7 @@ main(){
 		for (r=0;r<4;r++){
 			cout<<"\n";
 			for(c=0;c<8;c++){
-				clayout[r][c]='*';
-				cout<<"\t"<<clayout[r][c];
+				cout<<"\t"<<tick[A-1].clayout[r][c];
 			}}
 			cout<<"\nRows:4";
 			cout<<"\nColumns:8";
@@ -158,20 +178,21 @@ main(){
 			cin>>row1;
 			cout<<"\nEnter selected column: ";
 			cin>>col1;
-				if(clayout[row1-1][col1-1]=='X'){
+				if(tick[A-1].clayout[row1-1][col1-1]=='X'){
 					cout<<"\nThat seat has been taken. Please choose another seat.";
 					S=S-1;
-				}else if((clayout[row1-1][col1-1]!='X')&&(clayout[row1-1][col1-1]!='*')){
+				}else if((tick[A-1].clayout[row1-1][col1-1]!='X')&&(tick[A-1].clayout[row1-1][col1-1]!='*')){
 					cout<<"\nThat seat number does not exist please try again";
 					S=S-1;
 				}else{
-					clayout[row1-1][col1-1]='X';
+					tick[A-1].clayout[row1-1][col1-1]='X';
+					tick[A-1].intel[row1-1][col1-1]=i;
 					res[row1-1][col1-1]=i;
 					}
 		for (r=0;r<4;r++){
 			cout<<"\n";
 			for(c=0;c<8;c++){
-				cout<<"\t"<<clayout[r][c];}
+				cout<<"\t"<<tick[A-1].clayout[r][c];}
 				}
 		}
 		
@@ -184,17 +205,20 @@ main(){
 		cout<<"\nPay with\n1. Credits\n2. Cash\n";
 		cin>>ct;
 		if(ct==1){
-			d=b-user[i].credits;
+			d=user[i].credits-b;
 			if(d>=0){
-			cout<<"\nRemaining Credits: "<<user[i].credits;}
+			user[i].credits=user[i].credits-b;
+			cout<<"\nRemaining Credits: "<<user[i].credits;
+			r++;}
 			else{
 			cout<<"\nYour Credits are not enough please pay with cash.\n";
-			}
 			r--;
+			cin>>ct;}
 		}else if(ct==2){
 		cout<<"\nEnter amount given: ";
 		cin>>e;
 		d = e-b;
+		r++;
 		if(d>=0){
 		cout<<"\nChange due: "<<d;}else{
 			r--;
@@ -202,15 +226,17 @@ main(){
 		}}else{
 		}
 		}
-		cout<<"\nThankyou For Buying";
+		cout<<"\nThankyou For Buying\n";
 		cin>>ct;
 	}else{
 		cout<<"Thankyou Please come again.";
 	}}else if(z==2){
 		system("cls");
-		cout<<"~~~~~~~~~~Account Credits~~~~~~~~~~"<<endl<<endl;
+		cout<<"~~~~~~~~~Account Credits~~~~~~~~~"<<endl<<endl;
 		cout<<"\nHow much would you like to ad to your credits?";
 		cin>>user[i].credits;
+		cout<<"\nNew credits balance: "<<user[i].credits;
+		cin>>ct;
 	}else if(z==3){//qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
 		
 	}else if(z==4){//qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
