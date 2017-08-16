@@ -61,12 +61,12 @@ main(){
 	do{
 	system("cls");
 	cout<<"~~~~~~~~~MIJU ONLINE CINEMA~~~~~~~~~"<<endl;
-	cout<<"\n\n\n";
+	cout<<"\n";
 	
 	cout<<"1. Log In\n";
 	cout<<"2. Sign up\n";
 	cin>>ct;
-	
+	z=4;
 	if(ct==1){
 		cout<<"~~~~~~~~~Log In~~~~~~~~~"<<endl;
 		cout<<"Username:";
@@ -110,26 +110,27 @@ main(){
 			i=pop;
 			pop++;
 			Loog++;
+	}else if(ct!=2||ct!=1){
+				cout<<"Please choose one of the choices\n";
 	}
-	
+	do{
 	if(Loog>0){
 	system("cls");
-	
-			cout<<"Welcome back "<<user[i].Firstname<<" "<<user[i].Lastname<<endl;
-	do{
+	cout<<"Welcome back "<<user[i].Firstname<<" "<<user[i].Lastname<<endl;
 	if(i==0){
-	system("cls");
 	cout<<"\n\n~~~~~~~~~~Admin Menu~~~~~~~~~~\n";
-	cout<<"0. View Accounts\n";
+	cout<<"0. View Accounts(Admin)\n";
 	}else{
-	system("cls");
 	cout<<"\n\n~~~~~~~~~~User Menu~~~~~~~~~~\n";
 	}
 	cout<<"1. Reserve Seats\n";
 	cout<<"2. Add Credits to account\n";
-	cout<<"3. Cancel Reserve\n";
-	cout<<"4. Delete Account\n";
-	cout<<"5. Log Out\n";
+	cout<<"3. Delete Account\n";
+	cout<<"4. Log Out\n";
+	
+	if(i==0){
+	cout<<"5. Cancel Reserve(Admin)\n";}
+	
 	cin>>z;
 	
 	if(z==0&&i==0){
@@ -186,15 +187,14 @@ main(){
 					S=S-1;
 				}else{
 					tick[A-1].clayout[row1-1][col1-1]='X';
-					tick[A-1].intel[row1-1][col1-1]=i;
-					res[row1-1][col1-1]=i;
 					}
 		for (r=0;r<4;r++){
 			cout<<"\n";
 			for(c=0;c<8;c++){
 				cout<<"\t"<<tick[A-1].clayout[r][c];}
 				}
-		}
+		
+				cout<<"\n(Enter any number to continue)\n";cin>>ct;}
 		
 		for (r=0;r<1;){
 		system("cls");
@@ -227,7 +227,8 @@ main(){
 		}
 		}
 		cout<<"\nThankyou For Buying\n";
-		cin>>ct;
+		
+				cout<<"\n(Enter any number to continue)\n";cin>>ct;
 	}else{
 		cout<<"Thankyou Please come again.";
 	}}else if(z==2){
@@ -236,12 +237,11 @@ main(){
 		cout<<"\nHow much would you like to ad to your credits?";
 		cin>>user[i].credits;
 		cout<<"\nNew credits balance: "<<user[i].credits;
-		cin>>ct;
-	}else if(z==3){//qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
 		
-	}else if(z==4){//qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
-			system("cls");
-			cout<<"~~~~~~~~~~Deleting Account~~~~~~~~~~"<<endl<<endl;
+				cout<<"\n(Enter any number to continue)\n";cin>>ct;
+	}else if(z==3){
+	system("cls");
+			cout<<"~~~~~~~~~Deleting Account~~~~~~~~~"<<endl<<endl;
 			cout<<"Would you like to delete the account of "<<user[i].Firstname<<" "<<user[i].Lastname<<"?"<<endl;
 			cout<<"	1. YES"<<endl;
 			cin>>c;
@@ -254,11 +254,68 @@ main(){
 				user[i].Password2=user[i+1].Password2;
 				user[i].credits=user[i+1].credits;
 			}pop--;
+			}Loog--;
+			z=4;
+	}else if(z==4){
+		Loog=0;
+	}else if((z==5)&&(i==0)){//qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+		system("cls");
+			cout<<"~~~~~~~~~Cancel Reservation~~~~~~~~~"<<endl<<endl;
+	
+			cout<<"Movie Title\t\tVenue\t\tSchedule\tPrice\n";
+			for(temp=0;temp<4;temp++){
+				cout<<tick[temp].mt<<"\t";
+				cout<<tick[temp].cv<<"\t";
+				cout<<tick[temp].ms<<"\t";
+				cout<<tick[temp].mp<<"\t"<<endl;
 			}
-	Loog--;}
-	else if(z==5){
-		Loog--;
+
+			cout<<"\n\n\nSelect Cinema \n\n1. Cinema 1\n2. Cinema 2\n3. Cinema 3\n4. Cinema 4\nOthers: Not going to buy\n";
+			cin>>A;
+			if(A>=1&&A<=4){
+			cout<<"\n\nHow many to cancel?: ";
+			cin>>t;
+			cout<<"\nCinema "<<A;
+			cout<<"\n\n";
+			cout<<"\t=========================================================";
+			cout<<"\n\n\n";
+			for (r=0;r<4;r++){
+			cout<<"\n";
+			for(c=0;c<8;c++){
+				cout<<"\t"<<tick[A-1].clayout[r][c];
+			}}
+			cout<<"\nRows:4";
+			cout<<"\nColumns:8";
+			
+			for (S=1;S<=t;S++){
+			cout<<"\nTo stop canceling reservations enter row=0 column=0\n\n";
+			cout<<"\nEnter selected row: ";
+			cin>>row1;
+			cout<<"\nEnter selected column: ";
+			cin>>col1;
+				if(row1==0&&col1==0){
+					cout<<"\nYou have decied to stop canceling reservations.";
+				}else if(tick[A-1].clayout[row1-1][col1-1]=='*'){
+					cout<<"\nThat seat has not been taken. Please choose another seat.";
+					S=S-1;
+				}else if((tick[A-1].clayout[row1-1][col1-1]!='X')&&(tick[A-1].clayout[row1-1][col1-1]!='*')){
+					cout<<"\nThat seat number does not exist please try again";
+					S=S-1;
+				}else{
+					tick[A-1].clayout[row1-1][col1-1]='*';
+					}
+		for (r=0;r<4;r++){
+			cout<<"\n";
+			for(c=0;c<8;c++){
+				cout<<"\t"<<tick[A-1].clayout[r][c];}
+				}
+		
+				cout<<"\n\n(Enter any number to continue)\n";cin>>ct;
+		}}
+	
 	}
-	}while(z!=5);}cout<<endl<<"RETURN TO MENU(1 for yes)"<<endl;
-	cin>>r;}while(r!=1);
+	}}while(z!=4);
+	cout<<endl<<"RETURN TO MENU(1 for yes)"<<endl;
+	cin>>r;
+	}while(r!=1);
 	}
